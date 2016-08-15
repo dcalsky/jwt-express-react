@@ -4,13 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "NODE_ENV=development supervisor ./bin/www"
   },
   "author": "dcalsky",
   "license": "ISC",
   "dependencies": {
     "express": "^4.14.0",
     "express-jwt": "^3.4.0",
-    "mongoose": "^4.5.8"
+    "jsonwebtoken": "^7.1.9",
+    "mongoose": "^4.5.8",
+    "pg": "^6.1.0",
+    "sequelize": "^3.24.0",
+    "sequelize-cli": "^2.4.0"
+  },
+  "devDependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express-unless": "^0.3.0",
+    "morgan": "^1.7.0",
+    "pg-native": "^1.10.0"
   }
 }
