@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router()
 const model = require('../models')
 const jsonwebtoken = require('jsonwebtoken')
-const jwt = require('express-jwt');
+const jwt = require('express-jwt')
 const User = model.users
-const secret = require('../config').secret
+const config = require('../config')
 
 router.get('/', (req, res)=>{
   User.findAll().then((result) => {
@@ -50,10 +50,11 @@ router.post('/login', (req, res) => {
     })
     .then((user) => {
       if(user) {
-        const isAdmin = user.get('admin') ? 'admin' : 'normal'
+        const roleId = user.get('roleId')
         const token = jsonwebtoken.sign({
-          iss: isAdmin
-        }, secret, { // get secret from config
+          username: username,
+          role: roleId,
+        }, config.secret, { // get secret from config
           expiresIn: '1d' // expires in 1 day
         })
         res.json({
@@ -62,17 +63,21 @@ router.post('/login', (req, res) => {
           token: token
         })
       } else {
-        res.send('Authentication failed.')
+        res.send('Authentication failed')
       }
     })
 })
 
-router.post('/action1', jwt({secret: secret}), (req, res) => { // normal
+router.post('/action1', jwt({secret: config.secret}), (req, res) => { // normal will be ok
   res.send('ok!action1')
 })
 
-router.post('/action2', jwt({secret: secret, issuer: 'admin'}), (req, res) => { // admin
-  res.send('ok!action2')
+router.post('/action2', jwt({secret: config.secret}), (req, res) => { // only for admin
+  if(req.user.role === config.role.admin) {
+    res.send('hello! admin')
+  } else {
+    res.send('Authentication failed')
+  }
 })
 
 module.exports = router

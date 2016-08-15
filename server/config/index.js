@@ -5,5 +5,9 @@ module.exports = {
     name: 'login',
     user: 'dcalsky',
     password: 'react'
+  },
+  role: {
+    admin: 2,
+    normal: 1
   }
 }

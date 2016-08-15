@@ -9,10 +9,14 @@ const env       = process.env.NODE_ENV || "development";
 const sequelize = new Sequelize(config.db.name, config.db.user, config.db.password, {
   dialect: 'postgres',
   timezone: '+08:00',
+  native: true,
   define: {
     timestamps: false
   }
 });
+
+sequelize.sync()
+
 let db        = {};
 
 // Change to true to update the model in the database.
