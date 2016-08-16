@@ -58,12 +58,16 @@ export default class Login extends React.Component {
                 password: this.state.password,
             },
             success: (err, res) => {
-                const {token, username} = res.body
-                localStorage.setItem('username', username)
-                localStorage.setItem('token', token)
-                this.setState({
-                    token: token
-                })
+                if(err) {
+                    throw err
+                } else {
+                    const {token, username} = res.body
+                    localStorage.setItem('username', username)
+                    localStorage.setItem('token', token)
+                    this.setState({
+                        token: token
+                    })
+                }
             }
         })
     }
