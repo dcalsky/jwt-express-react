@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require('express')
 const router = express.Router()
 const model = require('../models')
@@ -12,9 +14,8 @@ router.get('/', (req, res)=>{
   })
 })
 
-router.post('/', (req, res) => {
-  const username = req.body.username
-  const password = req.body.password
+router.post('/register', (req, res) => {
+  const {username, password, email} = req.body
   User.findOne({
     where: {
       username: username
@@ -24,13 +25,24 @@ router.post('/', (req, res) => {
       User
         .build({
           username: username,
-          password: password
+          password: password,
+          email: email
         })
         .save()
         .then(() => {
-          res.send('successful!')
-        }).catch(function(e) {
-        throw e
+          const token = jsonwebtoken.sign({
+            username: username,
+            role: config.role.normal, // default is normal
+          }, config.secret, { // get secret from config
+            expiresIn: '1d' // expires in 1 day
+          })
+          res.json({
+            username: username,
+            email: email,
+            token: token
+          })
+        }).catch((err) => {
+          throw err
       })
     } else {
       res.send('User has already existed!')
@@ -39,8 +51,7 @@ router.post('/', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-  const username = req.body.username
-  const password = req.body.password
+  const {username, password} = req.body
   User
     .findOne({
       where: {
@@ -58,9 +69,9 @@ router.post('/login', (req, res) => {
           expiresIn: '1d' // expires in 1 day
         })
         res.json({
-          success: true,
-          message: 'ok!',
-          token: token
+          username: username,
+          token: token,
+          email: user.get('email')
         })
       } else {
         res.send('Authentication failed')

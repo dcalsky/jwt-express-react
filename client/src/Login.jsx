@@ -6,7 +6,8 @@ export default class Login extends React.Component {
         super()
         this.state = {
             username: null,
-            password: null
+            password: null,
+            token: null
         }
     }
     handleChangeUsername(e) {
@@ -19,7 +20,7 @@ export default class Login extends React.Component {
             password: e.target.value
         })
     }
-    handleFormSubmit(e) {
+    handleLoginSubmit(e) {
         e.preventDefault()
         request({
             method: 'POST',
@@ -29,8 +30,31 @@ export default class Login extends React.Component {
                 password: this.state.password
             },
             success: (err, res) => {
-                console.log(res.body)
-                localStorage.setItem('token', res.body.token)
+                const {token, username} = res.body
+                localStorage.setItem('username', username)
+                localStorage.setItem('token', token)
+                this.setState({
+                    token: token
+                })
+            }
+        })
+    }
+    handleRegisterSubmit(e) {
+        e.preventDefault()
+        request({
+            method: 'POST',
+            url: 'http://localhost:3000/api/user/register',
+            body: {
+                username: this.state.username,
+                password: this.state.password,
+            },
+            success: (err, res) => {
+                const {token, username} = res.body
+                localStorage.setItem('username', username)
+                localStorage.setItem('token', token)
+                this.setState({
+                    token: token
+                })
             }
         })
     }
@@ -57,13 +81,21 @@ export default class Login extends React.Component {
     render() {
         return (
             <div>
-            <form onSubmit={::this.handleFormSubmit}>
+                <p>登陆</p>
+            <form onSubmit={::this.handleLoginSubmit}>
                 <input type="text" onChange={::this.handleChangeUsername} placeholder="Username" />
                 <input type="text" onChange={::this.handleChangePassword} placeholder="Password" />
-                <button type="submit">Submit</button>
+                <button type="submit">Login</button>
             </form>
-                <button onClick={::this.handleAction1}>action1</button>
-                <button onClick={::this.handleAction2}>action2</button>
+                <p>注册</p>
+                <form onSubmit={::this.handleRegisterSubmit}>
+                    <input type="text" onChange={::this.handleChangeUsername} placeholder="Username" />
+                    <input type="text" onChange={::this.handleChangePassword} placeholder="Password" />
+                    <button type="submit">Register</button>
+                </form>
+                <p>token: {this.state.token}</p>
+                <button onClick={::this.handleAction1}>user action1</button>
+                <button onClick={::this.handleAction2}>admin action2</button>
             </div>
         )
     }

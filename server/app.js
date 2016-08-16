@@ -54,10 +54,6 @@ if (app.get('env') === 'development') {
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   console.log('status ' + err.status);
-  /*res.render('error', {
-   message: err.message,
-   error: {}
-   });*/
   res.send();
 });
 
