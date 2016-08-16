@@ -39,6 +39,15 @@ export default class Login extends React.Component {
             }
         })
     }
+    handleLoginOut() {
+        this.setState({
+            token: null,
+            username: null,
+            password: null
+        })
+        localStorage.setItem('token', null)
+        localStorage.setItem('username', null)
+    }
     handleRegisterSubmit(e) {
         e.preventDefault()
         request({
@@ -87,6 +96,7 @@ export default class Login extends React.Component {
                 <input type="text" onChange={::this.handleChangePassword} placeholder="Password" />
                 <button type="submit">Login</button>
             </form>
+                <button onClick={::this.handleLoginOut}>Logout</button>
                 <p>注册</p>
                 <form onSubmit={::this.handleRegisterSubmit}>
                     <input type="text" onChange={::this.handleChangeUsername} placeholder="Username" />
