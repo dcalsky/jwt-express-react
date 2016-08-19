@@ -5,7 +5,7 @@ const model         = require('../models')
 const jsonwebtoken  = require('jsonwebtoken')
 const jwt           = require('express-jwt')
 const config        = require('../config')
-const getErrorMessage  = require('../utils/error-handling')
+const getErrorMessage  = require('../utils/message-handle')
 
 const router        = express.Router()
 const User          = model.users
@@ -82,12 +82,16 @@ router.post('/login', (req, res, next) => {
 })
 
 router.post('/action1', jwt({secret: config.token.secret}), (req, res) => { // normal will be ok
-  res.send('action1 completed!')
+  res.json({
+    content: 'ok, action1'
+  })
 })
 
 router.post('/action2', jwt({secret: config.token.secret}), (req, res, next) => { // only for admin
   if(req.user.role === config.role.admin) {
-    res.send('hello! admin')
+    res.json({
+      content: 'ok, action2'
+    })
   } else {
     res.json(getErrorMessage(1002))
   }

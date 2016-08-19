@@ -1,5 +1,8 @@
 import React from 'react'
 import request from './utils/auth.js'
+import {server} from './config.json'
+
+const {url : URL} = server
 
 export default class Login extends React.Component {
     constructor() {
@@ -7,7 +10,8 @@ export default class Login extends React.Component {
         this.state = {
             username: null,
             password: null,
-            token: null
+            token: null,
+            message: null
         }
     }
     handleChangeUsername(e) {
@@ -20,21 +24,24 @@ export default class Login extends React.Component {
             password: e.target.value
         })
     }
+    // success: username, token
+    // error: code, message
     handleLoginSubmit(e) {
         e.preventDefault()
         request({
             method: 'POST',
-            url: 'http://localhost:3000/api/user/login',
+            url: URL + '/user/login',
             body: {
                 username: this.state.username,
                 password: this.state.password
             },
             success: (err, res) => {
-                const {token, username} = res.body
+                const {token, username, message} = res.body
                 localStorage.setItem('username', username)
                 localStorage.setItem('token', token)
                 this.setState({
-                    token: token
+                    token: token,
+                    message: message
                 })
             }
         })
@@ -48,11 +55,13 @@ export default class Login extends React.Component {
         localStorage.setItem('token', null)
         localStorage.setItem('username', null)
     }
+    // success: username, token
+    // error: code, message
     handleRegisterSubmit(e) {
         e.preventDefault()
         request({
             method: 'POST',
-            url: 'http://localhost:3000/api/user/register',
+            url: URL + '/user/register',
             body: {
                 username: this.state.username,
                 password: this.state.password,
@@ -61,33 +70,46 @@ export default class Login extends React.Component {
                 if(err) {
                     throw err
                 } else {
-                    const {token, username} = res.body
+                    const {token, username, message} = res.body
                     localStorage.setItem('username', username)
                     localStorage.setItem('token', token)
                     this.setState({
-                        token: token
+                        token: token,
+                        message: message
                     })
                 }
             }
         })
     }
+    // success: content
+    // error: code, message
     handleAction1() {
         request({
             method: 'POST',
-            url: 'http://localhost:3000/api/user/action1',
+            url: URL + '/user/action1',
             auth: `Bearer ${localStorage.getItem('token')}`,
             success: (err, res) => {
-                console.log(res.body)
+                console.log(res)
+                const {message} = res.body
+                this.setState({
+                    message: message
+                })
             }
         })
     }
+    // success: content
+    // error: code, message
     handleAction2() {
         request({
             method: 'POST',
-            url: 'http://localhost:3000/api/user/action2',
+            url: URL + '/user/action2',
             auth: `Bearer ${localStorage.getItem('token')}`,
             success: (err, res) => {
                 console.log(res.body)
+                const {message} = res.body
+                this.setState({
+                    message: message
+                })
             }
         })
     }
@@ -97,17 +119,18 @@ export default class Login extends React.Component {
                 <p>登陆</p>
             <form onSubmit={::this.handleLoginSubmit}>
                 <input type="text" onChange={::this.handleChangeUsername} placeholder="Username" />
-                <input type="text" onChange={::this.handleChangePassword} placeholder="Password" />
+                <input type="password" onChange={::this.handleChangePassword} placeholder="Password" />
                 <button type="submit">Login</button>
             </form>
                 <button onClick={::this.handleLoginOut}>Logout</button>
                 <p>注册</p>
                 <form onSubmit={::this.handleRegisterSubmit}>
                     <input type="text" onChange={::this.handleChangeUsername} placeholder="Username" />
-                    <input type="text" onChange={::this.handleChangePassword} placeholder="Password" />
+                    <input type="password" onChange={::this.handleChangePassword} placeholder="Password" />
                     <button type="submit">Register</button>
                 </form>
                 <p>token: {this.state.token}</p>
+                <p>message: {this.state.message}</p>
                 <button onClick={::this.handleAction1}>user action1</button>
                 <button onClick={::this.handleAction2}>admin action2</button>
             </div>
