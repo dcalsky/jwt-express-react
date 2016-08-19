@@ -2,3 +2,4 @@ node_modules
 .idea
 Ds_Store
 dist
+npm-debug.log
