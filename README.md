@@ -13,9 +13,5 @@
 
 任何建议与批评，非常欢迎！
 
-如果觉得有用，请各位大大给个**Star**呗！
-
-demo: http://demo.noddl.me/
-注意看console的输出。
 
 github地址： https://github.com/dcalsky/login-register-express-react
