@@ -1,17 +1,30 @@
-简单地做了RESTful形式的注册与登录功能
+A demo which includes frontend and backend based on json-web-token.
 
-技术栈：
- - 数据库: Postgresql
- - 后端: express sequelize
- - 前端: react
+## Fetures: 
+ - login and register based on JWT authorization of user.
+ - separate frontend and backend based on RESTful API.
 
-验证主要是通过前端在登录之后，每次都在header里添加auth字段的token，后端获取后判断用户是否有权限使用这个api.
+## Contains
 
-我设置了role这个model来存储不同的用户类型，以便区别不同用户的不同权限
+- [x] [Webpack](https://webpack.github.io)
+- [x] [React](https://facebook.github.io/react/)
+- [x] [Express](https://github.com/expressjs/express)
+- [x] [Express-jwt](https://github.com/auth0/express-jwt)
+- [x] [Babel](https://babeljs.io/)
+- [x] [Superagent](https://github.com/visionmedia/superagent)
+- [x] [Jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
+- [x] [Sequelize](https://github.com/sequelize/sequelize)
+- [x] [Node-postgres](https://github.com/brianc/node-postgres)
 
-数据库的信息在config目录下面可以修改成自己需要的。(前提是你装了postgresql并且环境配置好了)
+## Pattern
+Add the field of header named authorization to store JWT token after login of frontend.
 
-任何建议与批评，非常欢迎！
+Backend receives the JWT token and this API needs some permissions.
 
+## Details
 
-github地址： https://github.com/dcalsky/login-register-express-react
+A model named "Role" which is designed to store different identity of user to distinguish different authorities.
+
+You can change some configs at "config" dir. The premise is that you have already install the database environment.
+
+Any suggestiton and criticism generally be made welcome.
