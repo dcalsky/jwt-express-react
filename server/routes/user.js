@@ -10,11 +10,12 @@ const getErrorMessage  = require('../utils/message-handle')
 const router        = express.Router()
 const User          = model.users
 
-router.get('/', (req, res)=>{
-  User.findAll().then((result) => {
-    res.send(result)
-  })
-})
+// Find all users
+// router.get('/', (req, res)=>{
+//   User.findAll().then((result) => {
+//     res.send(result)
+//   })
+// })
 
 router.post('/register', (req, res) => {
   const {username, password, email} = req.body
@@ -81,12 +82,14 @@ router.post('/login', (req, res, next) => {
     })
 })
 
+// normal user action
 router.post('/action1', jwt({secret: config.token.secret}), (req, res) => { // normal will be ok
   res.json({
     content: 'ok, action1'
   })
 })
 
+// admin user action
 router.post('/action2', jwt({secret: config.token.secret}), (req, res, next) => { // only for admin
   if(req.user.role === config.role.admin) {
     res.json({
