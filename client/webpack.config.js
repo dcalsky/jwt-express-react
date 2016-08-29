@@ -3,35 +3,44 @@ var path = require('path')
 
 module.exports = {
     entry: {
-        app: ["./src/main.js"],
+        app: ['./src/main.js'],
         vendor: ['react', 'react-dom', 'react-router']
     },
     output: {
-        path: path.resolve(__dirname, "dist"),
+        path: path.resolve(__dirname, 'dist'),
         publicPath: 'dist',
-        filename: "main.js"
+        filename: 'main.js'
+    },
+    resolve: {
+        extensions: ['', '.js', '.jsx']
     },
     module: {
         loaders: [
             {
                 test: /\.(js|jsx)$/,
-                loader: "babel-loader",
-                exclude: 'node_moudles'
+                exclude: 'node_moudles',
+                loader: 'babel-loader'
             }, {
                 test: /\.css$/,
-                loader: "css-loader!style-loader"
+                loader: 'css-loader!style-loader'
             }, {
                 test: /\.json$/,
-                loader: "json-loader"
+                loader: 'json-loader'
             }
         ]
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.optimize.OccurrenceOrderPlugin(true),
+        new webpack.optimize.DedupePlugin(),
+        new webpack.DefinePlugin({
+        'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development') }
+        }),
         new webpack.optimize.CommonsChunkPlugin({
-            name: "vendor",
-            filename: "vendor.js"
+            name: 'vendor',
+            filename: 'vendor.js'
         })
-    ]
+    ],
+    devServer: {
+        contentBase: './',
+        hot: true
+    }
 }
