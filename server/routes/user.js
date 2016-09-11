@@ -11,11 +11,17 @@ const router        = express.Router()
 const User          = model.users
 
 // Find all users
-// router.get('/', (req, res)=>{
-//   User.findAll().then((result) => {
-//     res.send(result)
-//   })
-// })
+router.get('/', jwt({secret: config.token.secret}), (req, res)=>{
+  if(req.user.role === config.role.admin) {
+    User.findAll({
+      attributes: ['username', 'id']
+    }).then((result) => {
+      res.send(result)
+    })
+  } else {
+    res.json(getErrorMessage(1002))
+  }
+})
 
 router.post('/register', (req, res) => {
   const {username, password, email} = req.body

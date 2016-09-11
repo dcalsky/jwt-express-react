@@ -5,7 +5,6 @@ const path      = require("path");
 const Sequelize = require("sequelize");
 const config    = require('../config');
 const env       = process.env.NODE_ENV || "development";
-//var config    = require(__dirname + '/../config/config.json')[env];
 
 let db        = {};
 
@@ -39,7 +38,6 @@ Object.keys(db).forEach((modelName) => {
 // Check whether table of role is empty.
 db['roles'].findAll()
   .then((results) => {
-    console.log(results.length)
     if(results.length === 0) { // If Role if empty, add two records into it to avoid error.
       db['roles'].create({name: 'admin'}) //  role of admin
       db['roles'].create({name: 'normal'}) // role of normal user
