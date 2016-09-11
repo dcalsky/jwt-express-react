@@ -1,8 +1,9 @@
 A demo which includes frontend and backend based on json-web-token.
 
 ## Fetures: 
- - login and register based on JWT authorization of user.
- - separate frontend and backend based on RESTful API.
+ - Login and register based on JWT authorization of user
+ - Separate frontend and backend based on RESTful API
+ - Permission assignment
 
 ## Contains
 
