@@ -6,6 +6,9 @@ const Sequelize = require("sequelize");
 const config    = require('../config');
 const env       = process.env.NODE_ENV || "development";
 //var config    = require(__dirname + '/../config/config.json')[env];
+
+let db        = {};
+
 const sequelize = new Sequelize(config.db.name, config.db.user, config.db.password, {
   dialect: 'postgres',
   timezone: '+08:00',
@@ -16,11 +19,6 @@ const sequelize = new Sequelize(config.db.name, config.db.user, config.db.passwo
 });
 
 sequelize.sync()
-
-let db        = {};
-
-// Change to true to update the model in the database.
-// NOTE: This will erase your data.
 
 fs
   .readdirSync(__dirname)
@@ -37,6 +35,16 @@ Object.keys(db).forEach((modelName) => {
     db[modelName].associate(db);
   }
 });
+
+// Check whether table of role is empty.
+db['roles'].findAll()
+  .then((results) => {
+    console.log(results.length)
+    if(results.length === 0) { // If Role if empty, add two records into it to avoid error.
+      db['roles'].create({name: 'admin'}) //  role of admin
+      db['roles'].create({name: 'normal'}) // role of normal user
+    }
+  })
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

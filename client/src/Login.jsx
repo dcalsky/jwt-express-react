@@ -115,7 +115,7 @@ export default class Login extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div className="login1">
                 <p>登陆</p>
             <form onSubmit={::this.handleLoginSubmit}>
                 <input type="text" onChange={::this.handleChangeUsername} placeholder="Username" />
