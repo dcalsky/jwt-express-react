@@ -26,6 +26,14 @@ module.exports = (sequelize, DataTypes) => {
           }
         });
       }
+    },
+    // Remove the password column
+    instanceMethods: {
+      toJSON: function () {
+        let values = this.get();
+        delete values.password
+        return values;
+      }
     }
   })
   return User
