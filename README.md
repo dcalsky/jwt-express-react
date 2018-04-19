@@ -1,4 +1,13 @@
-A demo which includes frontend and backend based on json-web-token.
+jwt-express-react
+=====
+A demo shows the interaction between frontend(react) and backend(express) based on JWT.
+
+## Get Started
+Both of client and server. The server will run on port 3000, and client will run on port 3002.
+```
+$ npm run start
+```
+
 
 ## Features: 
  - Login and register based on JWT authorization of user
