@@ -1,6 +1,6 @@
 {
   "name": "jwt-express-react",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A demo which includes frontend and backend based on json-web-token.",
   "main": "app.js",
   "scripts": {
@@ -9,16 +9,17 @@
   "author": "dcalsky",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.14.0",
-    "express-jwt": "^3.4.0",
-    "jsonwebtoken": "^7.1.9",
-    "pg": "^6.1.0",
-    "sequelize": "^3.24.0"
+    "express": "^4.16.3",
+    "express-jwt": "^5.3.1",
+    "jsonwebtoken": "^8.2.1",
+    "pg": "^7.4.3",
+    "sequelize": "^4.37.8"
   },
   "devDependencies": {
-    "body-parser": "^1.15.2",
+    "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
-    "morgan": "^1.7.0",
-    "pg-native": "^1.10.0"
+    "morgan": "^1.9.0",
+    "pg-native": "^3.0.0",
+    "supervisor": "^0.12.0"
   }
 }
