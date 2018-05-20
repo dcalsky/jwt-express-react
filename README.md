@@ -1,10 +1,23 @@
 jwt-express-react
 =====
-A demo shows the interaction between frontend(react) and backend(express) based on JWT.
+A boilerplate shows the interaction between frontend(react) and backend(express) based on JWT.
 
 ## Get Started
-Both of client and server. The server will run on port 3000, and client will run on port 3002.
+The server will run on port 3000, and client will run on port 8080.
+
+### Client
 ```
+$ cd client
+$ npm install
+$ npm run start
+```
+
+### Server
+Create your postgresql database firstly, and initialize relational tables. Or you can use sequelize-cli to migrate.
+```
+$ cd server
+$ npm install
+... initialize database and tables.
 $ npm run start
 ```
 
